@@ -1,6 +1,8 @@
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 
+import 'package:baratito_mobile/ui/splash/splash.dart';
+
 void main() {
   runApp(ThemeProvider(child: const App()));
 }
@@ -11,9 +13,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Container(),
-      ),
+      theme: _buildTheme(context),
+      home: const SplashView(),
+    );
+  }
+
+  ThemeData _buildTheme(BuildContext context) {
+    return ThemeData(
+      scaffoldBackgroundColor: context.theme.colors.background,
     );
   }
 }
