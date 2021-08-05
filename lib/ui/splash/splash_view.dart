@@ -2,7 +2,7 @@ import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/extensions/extensions.dart';
-import 'package:baratito_mobile/ui/login/login_view.dart';
+import 'package:baratito_mobile/ui/login/login.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({Key? key}) : super(key: key);
