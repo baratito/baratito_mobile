@@ -8,9 +8,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
   baratito_ui:
     path: ../baratito_ui/
+  cupertino_icons: ^1.0.2
+  easy_localization: ^3.0.0
+  easy_localization_loader: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +21,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/localizations/
