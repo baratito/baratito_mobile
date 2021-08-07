@@ -1,3 +1,5 @@
+lists:
+  create: "Creá una lista"
 login:
-  google: "Ingresar con Google"
   facebook: "Ingresar con Facebook"
+  google: "Ingresar con Google"
