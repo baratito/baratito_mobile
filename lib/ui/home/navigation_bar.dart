@@ -2,8 +2,6 @@ import 'package:baratito_ui/baratito_ui.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-const _navigationBarHeight = 92.0;
-
 class NavigationBarItem extends Equatable {
   final IconData activeIcon;
   final IconData inactiveIcon;
@@ -34,8 +32,10 @@ class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = context.screenSize.width;
+    final height =
+        (context.theme.dimensions as MobileDimensionTheme).navigationBarHeight;
     return Container(
-      height: _navigationBarHeight,
+      height: height,
       width: width,
       decoration: BoxDecoration(
         color: context.theme.colors.background,
@@ -187,9 +187,11 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
   }
 
   Widget _buildIcons() {
+    final height =
+        (context.theme.dimensions as MobileDimensionTheme).navigationBarHeight;
     final iconSize = context.theme.dimensions.actionIconLarge;
     final boxSize = iconSize + 24;
-    const animationSlideAmount = _navigationBarHeight / 3;
+    final animationSlideAmount = height / 3;
     return SizedBox.square(
       dimension: boxSize,
       child: Stack(
