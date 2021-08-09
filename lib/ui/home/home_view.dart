@@ -29,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
         crossFadeState: _activePage == ActivePageState.feedActive
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 250),
         firstChild: const FeedPage(),
         secondChild: const LibraryPage(),
       ),
