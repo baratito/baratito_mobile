@@ -1,5 +1,12 @@
+feed:
+  greeting:
+    body: "¿Qué vas a comprar hoy?"
+    header: "¡Hola {}!"
+  title: "Feed"
 lists:
   create: "Creá una lista"
 login:
   facebook: "Ingresar con Facebook"
   google: "Ingresar con Google"
+products:
+  search_placeholder: "Search products..."
