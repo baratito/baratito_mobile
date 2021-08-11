@@ -9,4 +9,6 @@ login:
   facebook: "Ingresar con Facebook"
   google: "Ingresar con Google"
 products:
-  search_placeholder: "Search products..."
+  search_placeholder: "Buscar productos..."
+user_locations:
+  select: "Seleccionar ubicación"
