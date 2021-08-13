@@ -2,6 +2,8 @@ import 'package:baratito_ui/baratito_ui.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import 'package:baratito_mobile/extensions/extensions.dart';
+
 class NavigationBarItem extends Equatable {
   final IconData activeIcon;
   final IconData inactiveIcon;
@@ -35,13 +37,15 @@ class NavigationBar extends StatelessWidget {
     final height =
         (context.theme.dimensions as MobileDimensionTheme).navigationBarHeight;
     return Container(
-      height: height,
+      height: context.responsive(height),
       width: width,
       decoration: BoxDecoration(
         color: context.theme.colors.background,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.responsive(40, axis: Axis.horizontal),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [..._buildItems()],
@@ -109,11 +113,10 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _slideAnimation = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _slideController,
-        curve: Curves.ease,
-      ),
+    _slideAnimation = _slideController.curvedAnimation(
+      begin: 0.0,
+      end: 1.0,
+      curve: Curves.ease,
     );
   }
 
@@ -122,11 +125,10 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
       vsync: this,
       duration: const Duration(milliseconds: 450),
     );
-    _fadeAnimation = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _fadeController,
-        curve: Curves.fastOutSlowIn,
-      ),
+    _fadeAnimation = _fadeController.curvedAnimation(
+      begin: 0.0,
+      end: 1.0,
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -135,11 +137,10 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    _scaleAnimation = Tween(begin: 1.0, end: 1.2).animate(
-      CurvedAnimation(
-        parent: _scaleController,
-        curve: Curves.fastOutSlowIn,
-      ),
+    _scaleAnimation = _scaleController.curvedAnimation(
+      begin: 1.0,
+      end: 1.2,
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -191,7 +192,7 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
         (context.theme.dimensions as MobileDimensionTheme).navigationBarHeight;
     final iconSize = context.theme.dimensions.actionIconLarge;
     final boxSize = iconSize + 24;
-    final animationSlideAmount = height / 3;
+    final animationSlideAmount = context.responsive(height) / 3;
     return SizedBox.square(
       dimension: boxSize,
       child: Stack(
@@ -208,7 +209,7 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
                   child: Icon(
                     widget.inactiveIcon,
                     size: iconSize,
-                    color: context.theme.colors.greyBackground,
+                    color: context.theme.colors.disabled,
                   ),
                 ),
               ),
