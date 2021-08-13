@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:baratito_mobile/ui/home/feed/feed_app_bar_delegate.dart';
+import 'package:baratito_mobile/ui/home/feed/feed_header.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 
-import 'package:baratito_mobile/ui/home/feed/feed_header_app_bar.dart';
+import 'package:baratito_mobile/extensions/extensions.dart';
+import 'package:baratito_mobile/ui/home/feed/feed_sections_staggered_list.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -12,9 +17,10 @@ class FeedPage extends StatefulWidget {
 
 class _FeedPageState extends State<FeedPage> {
   final _controller = ScrollController();
-  final _headerAppBarHeightRatio = .33;
+  final _headerKey = GlobalKey();
+  final _headerOpacity = ValueNotifier(1.0);
 
-  bool _showCollapsedAppBar = false;
+  bool _appBarTitleVisible = false;
 
   @override
   void initState() {
@@ -25,37 +31,153 @@ class _FeedPageState extends State<FeedPage> {
   void _onScroll() {
     if (!_controller.hasClients) return;
 
-    final dimensionTheme =
-        context.themeValue.dimensions as MobileDimensionTheme;
+    final currentScrollOffset = _controller.offset;
+    final headerYOffset = _getWidgetHeaderYOffset();
 
-    final collapsedAppBarHeight = dimensionTheme.appBarHeight;
-    final expandedAppBarHeight =
-        context.screenSize.height * _headerAppBarHeightRatio;
+    _updateHeaderOpacity(currentScrollOffset, headerYOffset);
+    _updateAppBarTitleVisibility(currentScrollOffset, headerYOffset);
+  }
 
-    final offset = _controller.offset;
+  void _updateHeaderOpacity(double currentScrollOffset, double headerYOffset) {
+    if (currentScrollOffset > headerYOffset) return;
 
-    setState(() {
-      _showCollapsedAppBar =
-          offset > expandedAppBarHeight - collapsedAppBarHeight;
-    });
+    final headerOpacity = 1 - (currentScrollOffset / headerYOffset);
+    // Clamping to prevent overscrolling from breaking Opacity widget
+    _headerOpacity.value = min(1, max(0, headerOpacity));
+  }
+
+  void _updateAppBarTitleVisibility(
+    double currentScrollOffset,
+    double headerYOffset,
+  ) {
+    final souldShowTitle = currentScrollOffset >= headerYOffset;
+    if (_appBarTitleVisible != souldShowTitle) {
+      setState(() => _appBarTitleVisible = souldShowTitle);
+    }
+  }
+
+  double _getWidgetHeaderYOffset() {
+    final currentContext = _headerKey.currentContext;
+    if (currentContext == null) return 0;
+
+    final renderBox = currentContext.findRenderObject() as RenderBox;
+    final height = renderBox.size.height;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    return offset.dy + height;
   }
 
   @override
   Widget build(BuildContext context) {
-    final expandedAppBarHeight =
-        context.screenSize.height * _headerAppBarHeightRatio;
-
-    return NestedScrollView(
+    return CustomScrollView(
       controller: _controller,
-      headerSliverBuilder: (_, __) => [
-        FeedHeaderAppBar(
-          expandedHeight: expandedAppBarHeight,
-          showCollapsedAppBar: _showCollapsedAppBar,
-        )
+      slivers: [
+        _buildAppBar(context),
+        _buildHeader(context),
+        _buildBody(context),
       ],
-      body: ListView(
-        children: const [SizedBox(height: 1000)],
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: FeedAppBarDelegate(
+        showTitle: _appBarTitleVisible,
       ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        AnimatedBuilder(
+          animation: _headerOpacity,
+          builder: (_, child) {
+            return Opacity(
+              opacity: _headerOpacity.value,
+              child: child,
+            );
+          },
+          child: FeedHeader(key: _headerKey),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    final dimensionTheme =
+        context.themeValue.dimensions as MobileDimensionTheme;
+    final padding = context.responsive(
+      dimensionTheme.viewHorizontalPadding,
+      axis: Axis.horizontal,
+    );
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        FeedSectionsStaggeredList(
+          sectionPadding: EdgeInsets.fromLTRB(padding, 16, padding, 0),
+          sections: [
+            FeedStaggeredListSection(
+              title: 'Comprá lo de siempre',
+              items: [
+                IconListItem(
+                  title: 'Cosas para subsistir',
+                  subtitle1: '8 productos',
+                  icon: BaratitoIcons.category,
+                  iconColor: context.theme.colors.greenAccent,
+                  actionIcon: BaratitoIcons.arrowRight,
+                  onPressed: () {},
+                ),
+                IconListItem(
+                  title: 'Para el asado',
+                  subtitle1: '4 productos',
+                  icon: BaratitoIcons.category,
+                  iconColor: context.theme.colors.cyanAccent,
+                  actionIcon: BaratitoIcons.arrowRight,
+                  onPressed: () {},
+                ),
+                IconListItem(
+                  title: 'Compra mensual con verduritas',
+                  subtitle1: '16 productos',
+                  icon: BaratitoIcons.category,
+                  iconColor: context.theme.colors.greyAccent,
+                  actionIcon: BaratitoIcons.arrowRight,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            FeedStaggeredListSection(
+              title: 'Otras listas recomendadas',
+              items: [
+                IconListItem(
+                  title: 'Otra lista',
+                  subtitle1: '8 productos',
+                  icon: BaratitoIcons.category,
+                  iconColor: context.theme.colors.redAccent,
+                  actionIcon: BaratitoIcons.arrowRight,
+                  onPressed: () {},
+                ),
+                IconListItem(
+                  title: 'Una de test',
+                  subtitle1: '4 productos',
+                  icon: BaratitoIcons.category,
+                  iconColor: context.theme.colors.primary,
+                  actionIcon: BaratitoIcons.arrowRight,
+                  onPressed: () {},
+                ),
+                IconListItem(
+                  title: 'Pañuelitos de papel',
+                  subtitle1: '1 productos',
+                  icon: BaratitoIcons.category,
+                  iconColor: context.theme.colors.greenAccent,
+                  actionIcon: BaratitoIcons.arrowRight,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ]),
     );
   }
 
