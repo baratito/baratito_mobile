@@ -42,7 +42,7 @@ class BottomSheetBase extends StatelessWidget {
       height: height,
       decoration: ShapeDecoration(
         shape: const StadiumBorder(),
-        color: context.theme.colors.greyAccent,
+        color: context.theme.colors.dragLine,
       ),
     );
   }
