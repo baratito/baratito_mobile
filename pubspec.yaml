@@ -6,6 +6,8 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  baratito_core:
+    path: ../baratito_core/
   baratito_ui:
     path: ../baratito_ui/
   cupertino_icons: ^1.0.2
@@ -14,11 +16,21 @@ dependencies:
   equatable: ^2.0.3
   flutter:
     sdk: flutter
+  flutter_bloc: ^7.2.0
+  get_it: ^7.2.0
+  google_sign_in: ^5.0.7
+  injectable: ^1.5.0
+  shared_preferences: ^2.0.7
 
 dev_dependencies:
+  build_runner: ^2.1.1
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  injectable_generator:
+    git:
+      url: git://github.com/franpitri/injectable.git
+      path: injectable_generator
 
 flutter:
   uses-material-design: true

@@ -2,16 +2,16 @@ import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-enum SocialAuthenticationType { google, facebook }
+enum SocialAuthenticationButtonType { google, facebook }
 
 class SocialAuthenticationButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final SocialAuthenticationType _type;
+  final SocialAuthenticationButtonType _type;
 
   const SocialAuthenticationButton({
     Key? key,
     required this.onPressed,
-  })  : _type = SocialAuthenticationType.google,
+  })  : _type = SocialAuthenticationButtonType.google,
         super(key: key);
 
   factory SocialAuthenticationButton.google({
@@ -27,14 +27,14 @@ class SocialAuthenticationButton extends StatelessWidget {
   const SocialAuthenticationButton.facebook({
     Key? key,
     required this.onPressed,
-  })  : _type = SocialAuthenticationType.facebook,
+  })  : _type = SocialAuthenticationButtonType.facebook,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final contentColor = context.theme.text.primaryButton.color;
     switch (_type) {
-      case SocialAuthenticationType.google:
+      case SocialAuthenticationButtonType.google:
         return SolidButtonBase.extended(
           key: key,
           label: 'login.google'.tr(),
@@ -43,7 +43,7 @@ class SocialAuthenticationButton extends StatelessWidget {
           backgroundColor: context.theme.colors.socialAuthGoogle,
           onTap: onPressed,
         );
-      case SocialAuthenticationType.facebook:
+      case SocialAuthenticationButtonType.facebook:
         return SolidButtonBase.extended(
           key: key,
           label: 'login.facebook'.tr(),

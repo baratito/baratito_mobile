@@ -1,5 +1,6 @@
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:injectable/injectable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/ui/home/feed/feed.dart';
@@ -9,8 +10,12 @@ import 'package:baratito_mobile/ui/shared/shared.dart';
 
 enum ActivePageState { feedActive, libraryActive }
 
+@singleton
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  @factoryMethod
+  factory HomeView.withoutKey() => const HomeView();
 
   @override
   State<HomeView> createState() => _HomeViewState();
