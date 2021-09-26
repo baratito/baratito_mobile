@@ -6,7 +6,14 @@ import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/home/feed/search_box_button.dart';
 
 class FeedHeader extends StatefulWidget {
-  const FeedHeader({Key? key}) : super(key: key);
+  final String? greetingName;
+  final VoidCallback? onSearchPressed;
+
+  const FeedHeader({
+    Key? key,
+    this.greetingName,
+    this.onSearchPressed,
+  }) : super(key: key);
 
   @override
   State<FeedHeader> createState() => _FeedHeaderState();
@@ -89,13 +96,14 @@ class _FeedHeaderState extends State<FeedHeader>
   }
 
   Widget _buildGreetingTexts() {
+    final name = widget.greetingName ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AnimatedFade(
           animation: _greetingTitleFadeAnimation,
           child: Text(
-            'feed.greeting.header'.tr(args: ['Lautaro']),
+            'feed.greeting.header'.tr(args: [name]),
             style: context.theme.text.headline2,
           ),
         ),
@@ -115,7 +123,7 @@ class _FeedHeaderState extends State<FeedHeader>
       animation: _searchFadeAnimation,
       child: SearchBoxButton(
         placeholder: 'products.search_placeholder'.tr(),
-        onPressed: () {},
+        onPressed: widget.onSearchPressed,
       ),
     );
   }

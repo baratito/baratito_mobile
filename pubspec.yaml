@@ -16,7 +16,7 @@ dependencies:
   equatable: ^2.0.3
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.2.0
+  flutter_bloc: ^7.3.0
   get_it: ^7.2.0
   google_sign_in: ^5.0.7
   injectable: ^1.5.0

@@ -1,15 +1,31 @@
 import 'dart:math';
 
-import 'package:baratito_mobile/ui/home/feed/feed_app_bar_delegate.dart';
-import 'package:baratito_mobile/ui/home/feed/feed_header.dart';
+import 'package:baratito_core/baratito_core.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+import 'package:baratito_mobile/ui/home/feed/feed_app_bar_delegate.dart';
+import 'package:baratito_mobile/ui/home/feed/feed_header.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/home/feed/feed_sections_staggered_list.dart';
 
+@lazySingleton
 class FeedPage extends StatefulWidget {
-  const FeedPage({Key? key}) : super(key: key);
+  final AuthenticatedUserProfileCubit _authenticatedUserProfileCubit;
+
+  const FeedPage(
+    this._authenticatedUserProfileCubit, {
+    Key? key,
+  }) : super(key: key);
+
+  @factoryMethod
+  factory FeedPage.withoutKey(
+    AuthenticatedUserProfileCubit _authenticatedUserProfileCubit,
+  ) {
+    return FeedPage(_authenticatedUserProfileCubit);
+  }
 
   @override
   State<FeedPage> createState() => _FeedPageState();
@@ -25,6 +41,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   void initState() {
     _controller.addListener(_onScroll);
+    widget._authenticatedUserProfileCubit.get();
     super.initState();
   }
 
@@ -69,12 +86,42 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _controller,
-      slivers: [
-        _buildAppBar(context),
-        _buildHeader(context),
-        _buildBody(context),
+    return BlocBuilder<AuthenticatedUserProfileCubit,
+        AuthenticatedUserProfileState>(
+      bloc: widget._authenticatedUserProfileCubit,
+      builder: (context, state) {
+        if (state is! AuthenticatedUserProfileGetSuccessful) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [_buildLoading(context)],
+          );
+        }
+        final profile = state.profile;
+        return CustomScrollView(
+          controller: _controller,
+          slivers: [
+            _buildAppBar(context),
+            _buildHeader(context, profile),
+            _buildBody(context),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLoading(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const CategoriesLoadingIndicator(size: 40),
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Text(
+            'Loading...',
+            style: context.theme.text.body,
+          ),
+        ),
       ],
     );
   }
@@ -88,7 +135,8 @@ class _FeedPageState extends State<FeedPage> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, Profile profile) {
+    final geetingName = profile.firstName;
     return SliverList(
       delegate: SliverChildListDelegate([
         AnimatedBuilder(
@@ -99,7 +147,10 @@ class _FeedPageState extends State<FeedPage> {
               child: child,
             );
           },
-          child: FeedHeader(key: _headerKey),
+          child: FeedHeader(
+            key: _headerKey,
+            greetingName: geetingName,
+          ),
         ),
       ]),
     );

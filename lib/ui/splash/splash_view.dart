@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/login/login.dart';
 
-@singleton
+@lazySingleton
 class SplashView extends StatelessWidget {
   final AuthorizationCubit _authorizationCubit;
   final LoginView _loginView;

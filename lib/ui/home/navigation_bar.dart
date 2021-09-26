@@ -190,7 +190,7 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
   Widget _buildIcons() {
     final height =
         (context.theme.dimensions as MobileDimensionTheme).navigationBarHeight;
-    final iconSize = context.theme.dimensions.actionIconLarge;
+    final iconSize = context.theme.dimensions.iconLarge;
     final boxSize = iconSize + 24;
     final animationSlideAmount = context.responsive(height) / 3;
     return SizedBox.square(

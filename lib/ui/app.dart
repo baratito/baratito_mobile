@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/ui/splash/splash.dart';
 
-@singleton
+@lazySingleton
 class App extends StatelessWidget {
   final SplashView _splashView;
 

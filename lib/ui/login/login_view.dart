@@ -10,7 +10,7 @@ import 'package:baratito_mobile/ui/home/home.dart';
 import 'package:baratito_mobile/ui/login/social_authentication_button.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
 
-@singleton
+@lazySingleton
 class LoginView extends StatelessWidget {
   final SocialAuthenticationCubit _socialAuthenticationCubit;
   final HomeView _homeView;

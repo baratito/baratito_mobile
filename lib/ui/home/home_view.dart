@@ -10,12 +10,21 @@ import 'package:baratito_mobile/ui/shared/shared.dart';
 
 enum ActivePageState { feedActive, libraryActive }
 
-@singleton
+@lazySingleton
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  final FeedPage _feedPage;
+  final LibraryPage _libraryPage;
+
+  const HomeView(
+    this._feedPage,
+    this._libraryPage, {
+    Key? key,
+  }) : super(key: key);
 
   @factoryMethod
-  factory HomeView.withoutKey() => const HomeView();
+  factory HomeView.withoutKey(FeedPage _feedPage, LibraryPage _libraryPage) {
+    return HomeView(_feedPage, _libraryPage);
+  }
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -35,8 +44,8 @@ class _HomeViewState extends State<HomeView> {
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,
         duration: const Duration(milliseconds: 250),
-        firstChild: const FeedPage(),
-        secondChild: const LibraryPage(),
+        firstChild: widget._feedPage,
+        secondChild: widget._libraryPage,
       ),
     );
   }
