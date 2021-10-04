@@ -8,7 +8,12 @@ lists:
 login:
   facebook: "Ingresar con Facebook"
   google: "Ingresar con Google"
+  sign_in: "Iniciar Sesión"
 products:
   search_placeholder: "Buscar productos..."
+settings:
+  enable_darkmode: "Activar modo oscuro"
+  title: "Configuraciones"
+  sign_out: "Cerrar sesión"
 user_locations:
   select: "Seleccionar ubicación"
