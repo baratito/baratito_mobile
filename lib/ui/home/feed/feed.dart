@@ -1,3 +1,4 @@
+export 'avatar_settings_button.dart';
 export 'feed_app_bar_delegate.dart';
 export 'feed_header.dart';
 export 'feed_page.dart';

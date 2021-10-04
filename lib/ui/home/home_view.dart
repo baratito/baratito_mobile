@@ -1,6 +1,7 @@
+import 'package:baratito_core/baratito_core.dart';
+import 'package:baratito_mobile/di/di.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:injectable/injectable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/ui/home/feed/feed.dart';
@@ -10,28 +11,24 @@ import 'package:baratito_mobile/ui/shared/shared.dart';
 
 enum ActivePageState { feedActive, libraryActive }
 
-@lazySingleton
 class HomeView extends StatefulWidget {
-  final FeedPage _feedPage;
-  final LibraryPage _libraryPage;
-
-  const HomeView(
-    this._feedPage,
-    this._libraryPage, {
-    Key? key,
-  }) : super(key: key);
-
-  @factoryMethod
-  factory HomeView.withoutKey(FeedPage _feedPage, LibraryPage _libraryPage) {
-    return HomeView(_feedPage, _libraryPage);
-  }
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
+  late AuthenticatedUserProfileCubit _authenticatedUserProfileCubit;
+
   ActivePageState _activePage = ActivePageState.feedActive;
+
+  @override
+  void initState() {
+    _authenticatedUserProfileCubit =
+        getDependency<AuthenticatedUserProfileCubit>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +41,15 @@ class _HomeViewState extends State<HomeView> {
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,
         duration: const Duration(milliseconds: 250),
-        firstChild: widget._feedPage,
-        secondChild: widget._libraryPage,
+        firstChild: _buildFeedPage(),
+        secondChild: const LibraryPage(),
       ),
+    );
+  }
+
+  Widget _buildFeedPage() {
+    return FeedPage(
+      authenticatedUserProfileCubit: _authenticatedUserProfileCubit,
     );
   }
 

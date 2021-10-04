@@ -1,15 +1,8 @@
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 
-@lazySingleton
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);
-
-  @factoryMethod
-  factory LibraryPage.withoutKey() {
-    return const LibraryPage();
-  }
 
   @override
   State<LibraryPage> createState() => _LibraryPageState();

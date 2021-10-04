@@ -3,13 +3,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/extensions/extensions.dart';
+import 'package:baratito_mobile/ui/home/feed/avatar_settings_button.dart';
 import 'package:baratito_mobile/ui/notifications/notifications.dart';
 import 'package:baratito_mobile/ui/shared/bottom_sheets/bottom_sheets.dart';
 
 class FeedAppBarDelegate extends SliverPersistentHeaderDelegate {
   final bool showTitle;
+  final String avatarUrl;
+  final VoidCallback? onAvatarPressed;
 
   FeedAppBarDelegate({
+    required this.avatarUrl,
+    this.onAvatarPressed,
     this.showTitle = false,
   });
 
@@ -19,7 +24,11 @@ class FeedAppBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return _FeedAppBar(showTitle: showTitle);
+    return _FeedAppBar(
+      showTitle: showTitle,
+      avatarUrl: avatarUrl,
+      onAvatarPressed: onAvatarPressed,
+    );
   }
 
   @override
@@ -36,9 +45,13 @@ class FeedAppBarDelegate extends SliverPersistentHeaderDelegate {
 
 class _FeedAppBar extends StatelessWidget {
   final bool showTitle;
+  final String avatarUrl;
+  final VoidCallback? onAvatarPressed;
 
   const _FeedAppBar({
     Key? key,
+    required this.avatarUrl,
+    this.onAvatarPressed,
     this.showTitle = false,
   }) : super(key: key);
 
@@ -68,9 +81,12 @@ class _FeedAppBar extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(
-            right: context.responsive(12, axis: Axis.horizontal),
+            right: context.responsive(8, axis: Axis.horizontal),
           ),
-          child: const BaratitoIsotype(),
+          child: AvatarSettingsButton(
+            avatarUrl: avatarUrl,
+            onPressed: onAvatarPressed,
+          ),
         ),
         SelectionButton(
           label: 'Maestro Vidal 1461',

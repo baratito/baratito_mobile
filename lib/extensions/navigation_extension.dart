@@ -19,6 +19,7 @@ extension NavigationExtension on BuildContext {
     Widget view, [
     RouteTransitionType transitionType = RouteTransitionType.systemDefault,
   ]) async {
+    navigator.popUntil((route) => route.isFirst);
     return navigator.pushReplacement<T, T>(
       _buildRoute<T>(view, transitionType),
     );

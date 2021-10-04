@@ -13,5 +13,5 @@ void main() async {
   final coreDependencies = await setUpCoreDependencies(Environment.mobile);
   setUpDependencies(coreDependencies);
 
-  runApp(getDependency<App>());
+  runApp(const App());
 }

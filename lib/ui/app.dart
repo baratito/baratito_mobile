@@ -1,21 +1,14 @@
+import 'package:baratito_core/baratito_core.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
-import 'package:injectable/injectable.dart';
 import 'package:flutter/material.dart';
 
+import 'package:baratito_mobile/di/di.dart';
 import 'package:baratito_mobile/ui/splash/splash.dart';
 
-@lazySingleton
 class App extends StatelessWidget {
-  final SplashView _splashView;
-
-  const App(this._splashView, {Key? key}) : super(key: key);
-
-  @factoryMethod
-  factory App.withoutKey(SplashView _splashView) {
-    return App(_splashView);
-  }
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +32,9 @@ class App extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: _buildTheme(context),
-      home: _splashView,
+      home: SplashView(
+        authorizationCubit: getDependency<AuthorizationCubit>(),
+      ),
     );
   }
 
