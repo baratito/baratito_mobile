@@ -1,3 +1,13 @@
+failures:
+  confirm: "Confirmar"
+  connection_title: "Error de conexión"
+  connection_body: "Revisá el estado de tu conexión a internet."
+  not_found_title: "No encontrado"
+  not_found_body: "No pudimos encontrar el recurso en nuestro servidor."
+  server_title: "Error de servidor"
+  server_body: "Hubo un problema de nuestro lado, intentá nuevamente."
+  unhandled_title: "Error inesperado"
+  unhandled_body: "Hubo un problema de nuestro lado, intentá nuevamente."
 feed:
   greeting:
     body: "¿Qué vas a comprar hoy?"
@@ -9,11 +19,39 @@ login:
   facebook: "Ingresar con Facebook"
   google: "Ingresar con Google"
   sign_in: "Iniciar Sesión"
+market:
+  establishments: "Comercios"
+  minimum_price: "Precio mínimo"
 products:
+  browsing: "En:"
+  categories:
+    alcoholic_beverages: "Bebidas con alcohol"
+    baby_products: "Bebés"
+    cleaning_products: "Limpieza"
+    frozen_food: "Alimentos congelados"
+    fresh_food: "Frescos"
+    grocery_products: "Almacén"
+    non_alcoholic_beverages: "Bebidas sin alcohol"
+    other: "Otros"
+    pet_products: "Mascotas"
+    personal_care: "Cuidado personal"
+  categories_label: "Categorías"
+  search_no_results: "No se encontraron resultados..."
   search_placeholder: "Buscar productos..."
+  search_title: "Buscar productos"
 settings:
   enable_darkmode: "Activar modo oscuro"
   title: "Configuraciones"
   sign_out: "Cerrar sesión"
+shared:
+  cancel: "Cancelar"
+  confirm: "Confirmar"
 user_locations:
+  alias: "Alias"
+  alias_placeholder: "Ingrese un alias..."
+  create_title: "Guardar ubicación"
+  new_location: "Nueva ubicación"
+  no_user_location: "Para continuar, necesitamos saber dónde te encontrás."
+  search_placeholder: "Buscar ubicación..."
+  search_title: "Buscar ubicación"
   select: "Seleccionar ubicación"

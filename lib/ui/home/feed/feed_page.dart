@@ -1,16 +1,17 @@
 import 'dart:math';
 
 import 'package:baratito_core/baratito_core.dart';
-import 'package:baratito_mobile/di/di.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:baratito_mobile/di/di.dart';
+import 'package:baratito_mobile/ui/products/search/search.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/home/feed/feed_app_bar_delegate.dart';
 import 'package:baratito_mobile/ui/home/feed/feed_header.dart';
-import 'package:baratito_mobile/ui/shared/shared.dart';
 import 'package:baratito_mobile/ui/home/feed/feed_sections_staggered_list.dart';
+import 'package:baratito_mobile/ui/shared/shared.dart';
 
 class FeedPage extends StatefulWidget {
   final AuthenticatedUserProfileCubit authenticatedUserProfileCubit;
@@ -147,9 +148,18 @@ class _FeedPageState extends State<FeedPage> {
           child: FeedHeader(
             key: _headerKey,
             greetingName: geetingName,
+            onSearchPressed: _openSearchView,
           ),
         ),
       ]),
+    );
+  }
+
+  void _openSearchView() {
+    context.pushView(
+      ProductsSearchView(
+        productsSearchCubit: getDependency<ProductsSearchCubit>(),
+      ),
     );
   }
 

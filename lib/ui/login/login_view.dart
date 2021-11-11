@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/extensions/extensions.dart';
-import 'package:baratito_mobile/ui/home/home.dart';
+import 'package:baratito_mobile/ui/user_locations/user_locations.dart';
 import 'package:baratito_mobile/ui/login/social_authentication_button.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
 
@@ -29,7 +29,9 @@ class LoginView extends StatelessWidget {
       bloc: socialAuthenticationCubit,
       listener: (context, state) {
         if (state is SocialAuthenticationSuccessful) {
-          _navigateToHome(context);
+          _navigateToUserLocationBarrier(context);
+        } else if (state is SocialAuthenticationFailed) {
+          showFailureDialog(context: context, failure: state.failure);
         }
       },
       child: View(
@@ -120,9 +122,9 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  void _navigateToHome(BuildContext context) {
+  void _navigateToUserLocationBarrier(BuildContext context) {
     context.pushReplacementView(
-      const HomeView(),
+      const UserLocationSelectedBarrierView(),
       RouteTransitionType.fade,
     );
   }

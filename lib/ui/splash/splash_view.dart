@@ -1,11 +1,11 @@
 import 'package:baratito_core/baratito_core.dart';
-import 'package:baratito_mobile/di/di.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
+import 'package:baratito_mobile/di/di.dart';
+import 'package:baratito_mobile/ui/user_locations/user_locations.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
-import 'package:baratito_mobile/ui/home/home.dart';
 import 'package:baratito_mobile/ui/login/login.dart';
 
 class SplashView extends StatelessWidget {
@@ -25,7 +25,7 @@ class SplashView extends StatelessWidget {
       bloc: authorizationCubit,
       listener: (context, state) {
         if (state is AuthorizationSuccessful) {
-          _navigateToHome(context);
+          _navigateToUserLocationBarrier(context);
         } else if (state is AuthorizationFailed) {
           _navigateToLogin(context);
         }
@@ -56,9 +56,9 @@ class SplashView extends StatelessWidget {
     );
   }
 
-  void _navigateToHome(BuildContext context) {
+  void _navigateToUserLocationBarrier(BuildContext context) {
     context.pushReplacementView(
-      const HomeView(),
+      const UserLocationSelectedBarrierView(),
       RouteTransitionType.fade,
     );
   }

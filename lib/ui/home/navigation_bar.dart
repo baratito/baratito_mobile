@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/extensions/extensions.dart';
+import 'package:baratito_mobile/ui/shared/bottom_bars/bottom_bars.dart';
 
 class NavigationBarItem extends Equatable {
   final IconData activeIcon;
@@ -33,15 +34,7 @@ class NavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = context.screenSize.width;
-    final height =
-        (context.theme.dimensions as MobileDimensionTheme).navigationBarHeight;
-    return Container(
-      height: context.responsive(height),
-      width: width,
-      decoration: BoxDecoration(
-        color: context.theme.colors.background,
-      ),
+    return BottomBarBase(
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: context.responsive(40, axis: Axis.horizontal),

@@ -46,7 +46,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        if (title != null) Row(children: [_buildTitle(context)]),
+        if (title != null) _buildTitle(context),
         Row(
           mainAxisAlignment: showActions
               ? MainAxisAlignment.spaceBetween
@@ -98,12 +98,15 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    return Expanded(
-      child: Text(
-        title!,
-        style: context.theme.text.headline1,
-        textAlign: TextAlign.center,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          title!,
+          style: context.theme.text.headline1,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 
