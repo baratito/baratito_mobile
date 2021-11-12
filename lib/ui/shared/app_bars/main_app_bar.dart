@@ -64,12 +64,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Row(
       children: [
         for (final action in actions!)
-          Padding(
-            padding: EdgeInsets.only(
-              right: context.responsive(8, axis: Axis.horizontal),
-            ),
-            child: action,
-          ),
+          action,
       ],
     );
   }

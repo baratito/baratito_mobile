@@ -4,10 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/di/di.dart';
+import 'package:baratito_mobile/extensions/extensions.dart';
+import 'package:baratito_mobile/ui/shopping/shopping.dart';
 import 'package:baratito_mobile/ui/home/feed/feed.dart';
 import 'package:baratito_mobile/ui/home/library/library.dart';
 import 'package:baratito_mobile/ui/home/navigation_bar.dart' as nav;
 import 'package:baratito_mobile/ui/shared/shared.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum ActivePageState { feedActive, libraryActive }
 
@@ -20,6 +23,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late AuthenticatedUserProfileCubit _authenticatedUserProfileCubit;
+  late ShoppingListsCubit _shoppingListsCubit;
 
   ActivePageState _activePage = ActivePageState.feedActive;
 
@@ -27,24 +31,44 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     _authenticatedUserProfileCubit =
         getDependency<AuthenticatedUserProfileCubit>();
+    _shoppingListsCubit = getDependency<ShoppingListsCubit>();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return View(
-      fab: _buildFab(),
-      fabLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _buildNavigationBar(),
-      child: AnimatedCrossFade(
-        crossFadeState: _activePage == ActivePageState.feedActive
-            ? CrossFadeState.showFirst
-            : CrossFadeState.showSecond,
-        duration: const Duration(milliseconds: 250),
-        firstChild: _buildFeedPage(),
-        secondChild: const LibraryPage(),
+    return BlocListener<ShoppingListsCubit, ShoppingListsState>(
+      bloc: _shoppingListsCubit,
+      listener: (context, state) {
+        if (state is ShoppingListsCreated) {
+          _navigateToShoppingList(state.createdShoppingList);
+        }
+      },
+      child: View(
+        fab: _buildFab(),
+        fabLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: _buildNavigationBar(),
+        child: AnimatedCrossFade(
+          crossFadeState: _activePage == ActivePageState.feedActive
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
+          duration: const Duration(milliseconds: 250),
+          firstChild: _buildFeedPage(),
+          secondChild: _buildLibraryPage(),
+        ),
       ),
     );
+  }
+
+  void _navigateToShoppingList(ShoppingList shoppingList) {
+    final shoppingListCubit = getDependency<ShoppingListCubit>();
+    final shoppingListItemsCubit = getDependency<ShoppingListItemsCubit>();
+    shoppingListCubit.load(shoppingList: shoppingList);
+    shoppingListItemsCubit.load(shoppingList: shoppingList);
+    context.pushView(ShoppingListDetailView(
+      shoppingListCubit: shoppingListCubit,
+      shoppingListItemsCubit: shoppingListItemsCubit,
+    ));
   }
 
   Widget _buildFeedPage() {
@@ -53,11 +77,17 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  Widget _buildLibraryPage() {
+    return LibraryPage(
+      shoppingListsCubit: _shoppingListsCubit,
+    );
+  }
+
   Widget _buildFab() {
     return PrimaryButton(
       icon: BaratitoIcons.plus,
       label: 'lists.create'.tr(),
-      onTap: () {},
+      onTap: () => _shoppingListsCubit.create(),
     );
   }
 

@@ -44,8 +44,22 @@ settings:
   title: "Configuraciones"
   sign_out: "Cerrar sesión"
 shared:
+  add: "Agregar"
   cancel: "Cancelar"
   confirm: "Confirmar"
+  delete: "Borrar"
+  edit: "Editar"
+shopping:
+  add_products: "Agregar productos"
+  edit_products: "Editar productos"
+  products_label: "Productos"
+  selected: "seleccionados"
+  selected_products: "Productos seleccionados"
+  shopping_list: "Lista"
+  shopping_lists: "Listas"
+  shopping_lists_empty: "Todavía no tenés ninguna lista. Creá una para comenzar!"
+  shopping_list_items_empty: "Agregá productos editando la lista, y visualizalos acá!"
+  start: "Comenzá tu compra"
 user_locations:
   alias: "Alias"
   alias_placeholder: "Ingrese un alias..."

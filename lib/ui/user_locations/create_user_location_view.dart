@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/staticmap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:baratito_mobile/ui/home/home.dart';
 import 'package:baratito_mobile/ui/user_locations/map_location_search_item.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
