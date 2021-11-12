@@ -39,6 +39,16 @@ products:
   search_no_results: "No se encontraron resultados..."
   search_placeholder: "Buscar productos..."
   search_title: "Buscar productos"
+purchases:
+  complete: "Completar compra"
+  lessThanOneKilometer: "Hasta 1Km"
+  lessThanFiveKilometer: "Hasta 5Km"
+  lessThanTenKilometer: "Hasta 10Km"
+  max_market_count: "Cantidad de establecimientos"
+  max_market_distance: "Cercanía de los establecimientos"
+  mobility_mode: "Tipo de movilidad"
+  plan: "Planificá tu compra"
+  in_progress: "Compra en transcurso"
 settings:
   enable_darkmode: "Activar modo oscuro"
   title: "Configuraciones"

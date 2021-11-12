@@ -1,4 +1,5 @@
 export 'products_count_button_bottom_bar.dart';
+export 'purchases/purchases.dart';
 export 'shopping_list_detail_view.dart';
 export 'shopping_list_edit_view.dart';
 export 'shopping_list_item_detail_tile.dart';

@@ -189,11 +189,19 @@ class _ShoppingListDetailViewState extends State<ShoppingListDetailView> {
           if (items.isEmpty) return Container();
           return ExtendedButtonBottomBar(
             label: 'shopping.start'.tr(),
-            onPressed: () {},
+            onPressed: () => _startPurchase(state.shoppingList),
           );
         }
         return Container();
       },
     );
+  }
+
+  void _startPurchase(ShoppingList shoppingList) {
+    final purchaseCubit = getDependency<PurchaseCubit>();
+    purchaseCubit.load(shoppingList: shoppingList);
+    context.pushView(PurchaseSettingsSelectionView(
+      purchaseCubit: purchaseCubit,
+    ));
   }
 }

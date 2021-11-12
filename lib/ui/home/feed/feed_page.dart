@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:baratito_core/baratito_core.dart';
+import 'package:baratito_mobile/ui/products/lists/lists.dart';
+import 'package:baratito_mobile/ui/products/products.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,9 +17,11 @@ import 'package:baratito_mobile/ui/shared/shared.dart';
 
 class FeedPage extends StatefulWidget {
   final AuthenticatedUserProfileCubit authenticatedUserProfileCubit;
+  final ProductRecommendationsCubit recommendationsCubit;
 
   const FeedPage({
     required this.authenticatedUserProfileCubit,
+    required this.recommendationsCubit,
     Key? key,
   }) : super(key: key);
 
@@ -36,6 +40,7 @@ class _FeedPageState extends State<FeedPage> {
   void initState() {
     _controller.addListener(_onScroll);
     widget.authenticatedUserProfileCubit.get();
+    widget.recommendationsCubit.load();
     super.initState();
   }
 
@@ -170,50 +175,46 @@ class _FeedPageState extends State<FeedPage> {
       dimensionTheme.viewHorizontalPadding,
       axis: Axis.horizontal,
     );
-    return SliverList(
-      delegate: SliverChildListDelegate([
-        FeedSectionsStaggeredList(
-          sectionPadding: EdgeInsets.fromLTRB(padding, 16, padding, 0),
-          sections: [
-            FeedStaggeredListSection(
-              title: 'Comprá lo de siempre',
-              items: [
-                IconListItem(
-                  title: 'Cosas para subsistir',
-                  subtitle1: '8 productos',
-                  icon: BaratitoIcons.category,
-                  iconColor: context.theme.colors.greenAccent,
-                  actionIcon: BaratitoIcons.arrowRight,
-                  onPressed: () {},
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: IconListItem(
-                    title: 'Para el asado',
-                    subtitle1: '4 productos',
-                    icon: BaratitoIcons.category,
-                    iconColor: context.theme.colors.cyanAccent,
-                    actionIcon: BaratitoIcons.arrowRight,
-                    onPressed: () {},
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: IconListItem(
-                    title: 'Compra mensual con verduritas',
-                    subtitle1: '16 productos',
-                    icon: BaratitoIcons.category,
-                    iconColor: context.theme.colors.greyAccent,
-                    actionIcon: BaratitoIcons.arrowRight,
-                    onPressed: () {},
-                  ),
+    return BlocBuilder<ProductRecommendationsCubit,
+        ProductRecommendationsState>(
+      bloc: widget.recommendationsCubit,
+      builder: (context, state) {
+        if (state is! ProductRecommendationsLoaded) {
+          return SliverToBoxAdapter(child: Container());
+        }
+        final products = state.products;
+        return SliverList(
+          delegate: SliverChildListDelegate([
+            FeedSectionsStaggeredList(
+              sectionPadding: EdgeInsets.fromLTRB(padding, 16, padding, 0),
+              sections: [
+                FeedStaggeredListSection(
+                  title: 'Productos en oferta hoy!',
+                  items: [
+                    for (final product in products)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: ProductSearchItem(
+                          product: product,
+                          onPressed: () => _openDetail(product),
+                        ),
+                      ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ]),
+          ]),
+        );
+      },
     );
+  }
+
+  void _openDetail(Product product) {
+    final productDetailCubit = getDependency<ProductDetailCubit>();
+    productDetailCubit.load(product: product);
+    context.pushView(ProductDetailView(
+      productDetailCubit: productDetailCubit,
+    ));
   }
 
   @override

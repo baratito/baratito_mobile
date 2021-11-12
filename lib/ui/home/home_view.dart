@@ -24,6 +24,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late AuthenticatedUserProfileCubit _authenticatedUserProfileCubit;
   late ShoppingListsCubit _shoppingListsCubit;
+  late ProductRecommendationsCubit _recommendationsCubit;
 
   ActivePageState _activePage = ActivePageState.feedActive;
 
@@ -32,6 +33,7 @@ class _HomeViewState extends State<HomeView> {
     _authenticatedUserProfileCubit =
         getDependency<AuthenticatedUserProfileCubit>();
     _shoppingListsCubit = getDependency<ShoppingListsCubit>();
+    _recommendationsCubit = getDependency<ProductRecommendationsCubit>();
     super.initState();
   }
 
@@ -74,6 +76,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildFeedPage() {
     return FeedPage(
       authenticatedUserProfileCubit: _authenticatedUserProfileCubit,
+      recommendationsCubit: _recommendationsCubit,
     );
   }
 
