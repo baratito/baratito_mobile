@@ -138,7 +138,7 @@ class _UserLocationSelectedBarrierViewState
   }
 
   void _navigateToHome() {
-    context.pushReplacementView(
+    context.popAllAndPushReplacementView(
       const HomeView(),
       RouteTransitionType.fade,
     );

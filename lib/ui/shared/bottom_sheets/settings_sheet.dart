@@ -63,7 +63,7 @@ class SettingsSheet extends StatelessWidget {
 
   Future<void> _signOut(BuildContext context) async {
     await authorizationCubit.signOut();
-    context.pushReplacementView(
+    context.popAllAndPushReplacementView(
       LoginView(
         socialAuthenticationCubit: getDependency<SocialAuthenticationCubit>(),
         googleSignInService: getDependency<GoogleSignInService>(),

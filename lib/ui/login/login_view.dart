@@ -123,7 +123,7 @@ class LoginView extends StatelessWidget {
   }
 
   void _navigateToUserLocationBarrier(BuildContext context) {
-    context.pushReplacementView(
+    context.popAllAndPushReplacementView(
       const UserLocationSelectedBarrierView(),
       RouteTransitionType.fade,
     );

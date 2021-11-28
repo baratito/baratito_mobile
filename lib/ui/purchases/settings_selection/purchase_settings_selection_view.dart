@@ -1,12 +1,12 @@
 import 'package:baratito_core/baratito_core.dart';
-import 'package:baratito_mobile/ui/purchases/detail/detail.dart';
-import 'package:baratito_mobile/ui/purchases/settings_selection/icon_filter_button.dart';
-import 'package:baratito_mobile/ui/purchases/settings_selection/text_filter_button.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:baratito_mobile/ui/purchases/detail/purchase_detail_loading_view.dart';
+import 'package:baratito_mobile/ui/purchases/settings_selection/icon_filter_button.dart';
+import 'package:baratito_mobile/ui/purchases/settings_selection/text_filter_button.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
 
@@ -35,13 +35,8 @@ class PurchaseSettingsSelectionView extends StatelessWidget {
       dimensionTheme.viewHorizontalPadding,
       axis: Axis.horizontal,
     );
-    return BlocConsumer<PurchaseCubit, PurchaseState>(
+    return BlocBuilder<PurchaseCubit, PurchaseState>(
       bloc: purchaseCubit,
-      listener: (context, state) {
-        if (state is PurchaseLoaded) {
-          _navigateToPurchase(context);
-        }
-      },
       builder: (context, state) {
         if (state is! PurchaseSettingsData) return Container();
         final settings = state.purchaseSettings;
@@ -199,11 +194,15 @@ class PurchaseSettingsSelectionView extends StatelessWidget {
   Widget _buildButtonBar(BuildContext context) {
     return ExtendedButtonBottomBar(
       label: 'shopping.start'.tr(),
-      onPressed: () => purchaseCubit.startPurchase(),
+      onPressed: () => _startPurchase(context),
     );
   }
 
-  void _navigateToPurchase(BuildContext context) {
-    context.pushView(PurchaseDetailView(purchaseCubit: purchaseCubit));
+  void _startPurchase(BuildContext context) {
+    purchaseCubit.startPurchase();
+    context.pushView(
+      PurchaseDetailLoadingView(purchaseCubit: purchaseCubit),
+      RouteTransitionType.fade,
+    );
   }
 }

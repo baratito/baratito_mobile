@@ -47,7 +47,7 @@ class SplashView extends StatelessWidget {
   }
 
   void _navigateToLogin(BuildContext context) {
-    context.pushReplacementView(
+    context.popAllAndPushReplacementView(
       LoginView(
         socialAuthenticationCubit: getDependency<SocialAuthenticationCubit>(),
         googleSignInService: getDependency<GoogleSignInService>(),
@@ -57,7 +57,7 @@ class SplashView extends StatelessWidget {
   }
 
   void _navigateToUserLocationBarrier(BuildContext context) {
-    context.pushReplacementView(
+    context.popAllAndPushReplacementView(
       const UserLocationSelectedBarrierView(),
       RouteTransitionType.fade,
     );

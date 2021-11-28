@@ -22,7 +22,7 @@ class CategoriesLoadingIndicator extends StatefulWidget {
 class _CategoriesLoadingIndicatorState
     extends State<CategoriesLoadingIndicator> {
   late Timer _timer;
-  final _categories = Category.values;
+  final _categories = Category.values.sublist(1);
   int _currentIndex = 0;
 
   @override

@@ -44,6 +44,7 @@ purchases:
   lessThanOneKilometer: "Hasta 1Km"
   lessThanFiveKilometer: "Hasta 5Km"
   lessThanTenKilometer: "Hasta 10Km"
+  loading: "Generando tu recorrido..."
   max_market_count: "Cantidad de establecimientos"
   max_market_distance: "Cercanía de los establecimientos"
   mobility_mode: "Tipo de movilidad"

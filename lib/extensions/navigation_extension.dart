@@ -15,11 +15,20 @@ extension NavigationExtension on BuildContext {
     return navigator.push<T>(_buildRoute<T>(view, transitionType));
   }
 
-  Future<T?> pushReplacementView<T>(
+  Future<T?> popAllAndPushReplacementView<T>(
     Widget view, [
     RouteTransitionType transitionType = RouteTransitionType.systemDefault,
   ]) async {
     navigator.popUntil((route) => route.isFirst);
+    return navigator.pushReplacement<T, T>(
+      _buildRoute<T>(view, transitionType),
+    );
+  }
+
+  Future<T?> pushReplacementView<T>(
+    Widget view, [
+    RouteTransitionType transitionType = RouteTransitionType.systemDefault,
+  ]) async {
     return navigator.pushReplacement<T, T>(
       _buildRoute<T>(view, transitionType),
     );
