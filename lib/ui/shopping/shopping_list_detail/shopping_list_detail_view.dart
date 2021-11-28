@@ -1,19 +1,18 @@
 import 'package:baratito_core/baratito_core.dart';
 import 'package:baratito_mobile/di/di.dart';
-import 'package:baratito_mobile/ui/shared/bottom_bars/extended_button_bottom_bar.dart';
-import 'package:baratito_mobile/ui/shopping/shopping.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import 'package:baratito_mobile/ui/shopping/shopping_list_item_detail_tile.dart';
-import 'package:baratito_mobile/ui/shopping/shopping_list_items_empty_illustration.dart';
-import 'package:baratito_mobile/ui/shopping/shopping_list_name_input.dart';
-import 'package:baratito_mobile/ui/shopping/shopping_list_products_search_view.dart';
-import 'package:baratito_mobile/extensions/extensions.dart';
-import 'package:baratito_mobile/ui/shared/shared.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_debounce_it/just_debounce_it.dart';
+
+import 'package:baratito_mobile/ui/purchases/purchases.dart';
+import 'package:baratito_mobile/ui/shopping/shopping_list_detail/shopping_list_detail_item_list.dart';
+import 'package:baratito_mobile/ui/shopping/shopping_list_items_empty_illustration.dart';
+import 'package:baratito_mobile/ui/shopping/shopping_list_detail/shopping_list_name_input.dart';
+import 'package:baratito_mobile/ui/shopping/shopping_list_products/shopping_list_products_search_view.dart';
+import 'package:baratito_mobile/extensions/extensions.dart';
+import 'package:baratito_mobile/ui/shared/shared.dart';
 
 class ShoppingListDetailView extends StatefulWidget {
   final ShoppingListCubit shoppingListCubit;
@@ -43,32 +42,9 @@ class _ShoppingListDetailViewState extends State<ShoppingListDetailView> {
   }
 
   Widget _buildAction() {
-    return BlocBuilder<ShoppingListItemsCubit, ShoppingListItemsState>(
-      bloc: widget.shoppingListItemsCubit,
-      builder: (context, state) {
-        if (state is ShoppingListItemsData) {
-          final items = state.items;
-          if (items.isEmpty) {
-            return SecondaryButton(
-              label: 'shared.add'.tr(),
-              onTap: _openSearch,
-            );
-          }
-          return SecondaryButton(
-            label: 'shared.edit'.tr(),
-            onTap: _openEdit,
-          );
-        }
-        return Container();
-      },
-    );
-  }
-
-  void _openEdit() {
-    context.pushView(
-      ShoppingListEditView(
-        shoppingListItemsCubit: widget.shoppingListItemsCubit,
-      ),
+    return SecondaryButton(
+      label: 'shared.edit'.tr(),
+      onTap: _openSearch,
     );
   }
 
@@ -99,9 +75,14 @@ class _ShoppingListDetailViewState extends State<ShoppingListDetailView> {
                 padding: EdgeInsets.symmetric(horizontal: padding),
                 child: _buildName(state),
               ),
+              Padding(
+                padding: EdgeInsets.only(left: padding),
+                child: _buildLabel(),
+              ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: padding),
+                  padding: EdgeInsets.fromLTRB(
+                      padding, context.responsive(16), padding, 0),
                   child: _buildItems(),
                 ),
               ),
@@ -134,49 +115,54 @@ class _ShoppingListDetailViewState extends State<ShoppingListDetailView> {
     });
   }
 
+  Widget _buildLabel() {
+    return Row(
+      children: [
+        Flexible(
+          child: Text(
+            'shopping.products_label'.tr(),
+            style: context.theme.text.label,
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _buildItems() {
     return BlocBuilder<ShoppingListItemsCubit, ShoppingListItemsState>(
       bloc: widget.shoppingListItemsCubit,
       builder: (context, state) {
+        List<ShoppingListItem>? items;
         if (state is ShoppingListItemsData) {
-          final items = state.items;
+          items = state.items;
           if (items.isEmpty) return _buildEmpty();
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (_, index) {
-              final item = items[index];
-              return _buildTile(item);
-            },
-          );
         }
-        return Container();
+        return ShoppingListDetailItemList(
+          items: items,
+          isLoading: state is ShoppingListItemsLoading,
+        );
       },
     );
   }
 
-  Widget _buildTile(ShoppingListItem item) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: context.responsive(16)),
-      child: ShoppingListItemDetailTile(item: item),
-    );
-  }
-
   Widget _buildEmpty() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const ShoppingListItemsEmptyIllustration(),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: context.responsive(36),
+    return FadeIn(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const ShoppingListItemsEmptyIllustration(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: context.responsive(36),
+            ),
+            child: Text(
+              'shopping.shopping_list_items_empty'.tr(),
+              textAlign: TextAlign.center,
+              style: context.theme.text.body,
+            ),
           ),
-          child: Text(
-            'shopping.shopping_list_items_empty'.tr(),
-            textAlign: TextAlign.center,
-            style: context.theme.text.body,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

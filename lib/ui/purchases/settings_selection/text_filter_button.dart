@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/extensions/extensions.dart';
 
-class MaxEstablishmentsButton extends StatelessWidget {
-  final int number;
-  final bool isSelected;
+class TextFilterButton extends StatelessWidget {
+  final String label;
   final VoidCallback? onPressed;
+  final bool isSelected;
 
-  const MaxEstablishmentsButton({
+  const TextFilterButton({
     Key? key,
-    required this.number,
-    this.isSelected = false,
+    required this.label,
     this.onPressed,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class MaxEstablishmentsButton extends StatelessWidget {
     final colorTheme = context.theme.colors;
     final color = isSelected ? colorTheme.primary : colorTheme.greyAccent;
     return Material(
-      shape: const CircleBorder(),
+      borderRadius: BorderRadius.circular(16),
       clipBehavior: Clip.antiAlias,
       color: color.withOpacity(.2),
       child: InkWell(
@@ -28,14 +28,16 @@ class MaxEstablishmentsButton extends StatelessWidget {
         splashColor: color.withOpacity(.05),
         highlightColor: color.withOpacity(.2),
         child: Padding(
-          padding: EdgeInsets.all(context.responsive(20)),
+          padding: EdgeInsets.symmetric(
+            vertical: context.responsive(12),
+            horizontal: context.responsive(16, axis: Axis.horizontal),
+          ),
           child: Text(
-            '$number',
+            label,
             style: context.theme.text.primaryButton.copyWith(color: color),
           ),
         ),
       ),
     );
-    ;
   }
 }

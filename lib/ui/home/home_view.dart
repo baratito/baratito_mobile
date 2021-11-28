@@ -65,7 +65,10 @@ class _HomeViewState extends State<HomeView> {
   void _navigateToShoppingList(ShoppingList shoppingList) {
     final shoppingListCubit = getDependency<ShoppingListCubit>();
     final shoppingListItemsCubit = getDependency<ShoppingListItemsCubit>();
-    shoppingListCubit.load(shoppingList: shoppingList);
+    shoppingListCubit.load(
+      shoppingListsCubit: _shoppingListsCubit,
+      shoppingList: shoppingList,
+    );
     shoppingListItemsCubit.load(shoppingList: shoppingList);
     context.pushView(ShoppingListDetailView(
       shoppingListCubit: shoppingListCubit,
@@ -88,7 +91,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildFab() {
     return PrimaryButton(
-      icon: BaratitoIcons.plus,
+      icon: Icons.add,
       label: 'lists.create'.tr(),
       onTap: () => _shoppingListsCubit.create(),
     );

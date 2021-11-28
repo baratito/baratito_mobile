@@ -1,19 +1,18 @@
 import 'package:baratito_core/baratito_core.dart';
-import 'package:baratito_mobile/ui/shopping/purchases/settings_selection/purchase_list_view.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:baratito_mobile/ui/shared/bottom_bars/bottom_bars.dart';
+import 'package:baratito_mobile/ui/purchases/detail/purchase_detail_list_view.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
 
-class PurchaseView extends StatelessWidget {
+class PurchaseDetailView extends StatelessWidget {
   final PurchaseCubit purchaseCubit;
 
-  const PurchaseView({
+  const PurchaseDetailView({
     Key? key,
     required this.purchaseCubit,
   }) : super(key: key);
@@ -47,7 +46,7 @@ class PurchaseView extends StatelessWidget {
   }
 
   void _openList(BuildContext context, PurchaseList purchaseList) {
-    context.pushView(PurchaseListView(purchaseList: purchaseList));
+    context.pushView(PurchaseDetailListView(purchaseList: purchaseList));
   }
 
   Widget _buildContent(BuildContext context) {

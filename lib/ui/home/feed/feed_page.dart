@@ -1,14 +1,12 @@
 import 'dart:math';
 
 import 'package:baratito_core/baratito_core.dart';
-import 'package:baratito_mobile/ui/products/lists/lists.dart';
-import 'package:baratito_mobile/ui/products/products.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:baratito_mobile/di/di.dart';
-import 'package:baratito_mobile/ui/products/search/search.dart';
+import 'package:baratito_mobile/ui/products/products.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/home/feed/feed_app_bar_delegate.dart';
 import 'package:baratito_mobile/ui/home/feed/feed_header.dart';

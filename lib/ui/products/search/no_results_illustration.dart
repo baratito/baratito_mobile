@@ -12,6 +12,6 @@ class NoResultsIllustration extends StatelessWidget {
     final illustration = isDarkmodeActive
         ? Illustrations.productsNoResultsDark
         : Illustrations.productsNoResultsLight;
-    return SvgPicture.asset(illustration, width: 140);
+    return SvgPicture.asset(illustration, width: 200);
   }
 }

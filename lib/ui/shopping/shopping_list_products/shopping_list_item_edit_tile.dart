@@ -78,26 +78,11 @@ class ShoppingListItemEditTile extends StatelessWidget {
       subtitle1: item.product.presentation,
       subtitle2: _getQuantitySubtitle(),
       subtitle2Color: context.theme.colors.primary,
-      leading: _buildLeading(context),
     );
   }
 
   String _getQuantitySubtitle() {
     final selected = 'shopping.selected'.tr();
     return '${item.quantity} $selected';
-  }
-
-  Widget _buildLeading(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        right: context.responsive(12, axis: Axis.horizontal),
-      ),
-      child: NetworkImageSquircle(
-        imageUrl: item.product.imageUrl,
-        size: 52,
-        fallbackWidget: const IconSquircle(icon: BaratitoIcons.bag),
-        loadingWidget: const IconSquircle(icon: BaratitoIcons.bag),
-      ),
-    );
   }
 }

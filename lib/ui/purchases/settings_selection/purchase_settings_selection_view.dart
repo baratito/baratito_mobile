@@ -1,14 +1,12 @@
 import 'package:baratito_core/baratito_core.dart';
-import 'package:baratito_mobile/ui/shopping/purchases/settings_selection/establishments_distance_button.dart';
-import 'package:baratito_mobile/ui/shopping/purchases/settings_selection/max_establishments_button.dart';
-import 'package:baratito_mobile/ui/shopping/purchases/settings_selection/mobility_mode_button.dart';
-import 'package:baratito_mobile/ui/shopping/purchases/settings_selection/purchase_view.dart';
+import 'package:baratito_mobile/ui/purchases/detail/detail.dart';
+import 'package:baratito_mobile/ui/purchases/settings_selection/icon_filter_button.dart';
+import 'package:baratito_mobile/ui/purchases/settings_selection/text_filter_button.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:baratito_mobile/ui/shared/bottom_bars/bottom_bars.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
 
@@ -106,8 +104,8 @@ class PurchaseSettingsSelectionView extends StatelessWidget {
     final number = index + 1;
     return Padding(
       padding: const EdgeInsets.only(right: 16),
-      child: MaxEstablishmentsButton(
-        number: number,
+      child: TextFilterButton(
+        label: '$number',
         onPressed: () {
           purchaseCubit.updateSettings(maxMarketCount: number);
         },
@@ -138,7 +136,7 @@ class PurchaseSettingsSelectionView extends StatelessWidget {
   ) {
     return Padding(
       padding: const EdgeInsets.only(right: 16),
-      child: EstablishmentsDistanceButton(
+      child: TextFilterButton(
         label: 'purchases.${marketDistance.toString().split(".").last}'.tr(),
         onPressed: () {
           purchaseCubit.updateSettings(maxMarketDistance: marketDistance);
@@ -167,7 +165,7 @@ class PurchaseSettingsSelectionView extends StatelessWidget {
   ) {
     return Padding(
       padding: const EdgeInsets.only(right: 16),
-      child: MobilityModeButton(
+      child: IconFilterButton(
         icon: _getMobilityModeIcon(mobilityMode),
         onPressed: () {
           purchaseCubit.updateSettings(mobilityMode: mobilityMode);
@@ -206,6 +204,6 @@ class PurchaseSettingsSelectionView extends StatelessWidget {
   }
 
   void _navigateToPurchase(BuildContext context) {
-    context.pushView(PurchaseView(purchaseCubit: purchaseCubit));
+    context.pushView(PurchaseDetailView(purchaseCubit: purchaseCubit));
   }
 }

@@ -1,6 +1,3 @@
-import 'package:baratito_mobile/di/di.dart';
-import 'package:baratito_mobile/ui/products/detail/detail.dart';
-import 'package:baratito_mobile/ui/products/lists/lists.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_debounce_it/just_debounce_it.dart';
 import 'package:baratito_core/baratito_core.dart';
@@ -8,7 +5,10 @@ import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'package:baratito_mobile/ui/products/search/categories_list.dart';
+import 'package:baratito_mobile/di/di.dart';
+import 'package:baratito_mobile/ui/products/detail/detail.dart';
+import 'package:baratito_mobile/ui/products/lists/lists.dart';
+import 'package:baratito_mobile/ui/products/search/categories_grid.dart';
 import 'package:baratito_mobile/ui/products/search/no_results_illustration.dart';
 import 'package:baratito_mobile/ui/products/search/selected_category.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
@@ -85,7 +85,7 @@ class _ProductsSearchViewState extends State<ProductsSearchView> {
   }
 
   Widget _buildSearchInput(BuildContext context) {
-    return RoundedInput.large(
+    return RoundedInput(
       placeholder: 'products.search_placeholder'.tr(),
       autofocus: true,
       onValueChanged: _onSearchTextChanged,
@@ -107,9 +107,12 @@ class _ProductsSearchViewState extends State<ProductsSearchView> {
         top: context.responsive(16),
         bottom: context.responsive(8),
       ),
-      child: SelectedCategory(
-        category: state.category!,
-        onUnselectPressed: () => _onUnselectButtonPressed(),
+      child: FadeIn(
+        duration: const Duration(milliseconds: 300),
+        child: SelectedCategory(
+          category: state.category!,
+          onUnselectPressed: () => _onUnselectButtonPressed(),
+        ),
       ),
     );
   }
@@ -120,7 +123,7 @@ class _ProductsSearchViewState extends State<ProductsSearchView> {
 
   Widget _buildResults(BuildContext context, ProductsSearchState state) {
     if (state is ProductsSearchInitial) {
-      return _buildCategoriesList(context);
+      return _buildCategoriesGrid(context);
     }
 
     if (state is ProductsSearchLoading) {
@@ -138,10 +141,10 @@ class _ProductsSearchViewState extends State<ProductsSearchView> {
     return Container();
   }
 
-  Widget _buildCategoriesList(BuildContext context) {
+  Widget _buildCategoriesGrid(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: context.responsive(20)),
-      child: CategoriesList(
+      child: CategoriesGrid(
         onCategoryPressed: _onCategoryButtonPressed,
       ),
     );
@@ -159,18 +162,20 @@ class _ProductsSearchViewState extends State<ProductsSearchView> {
   }
 
   Widget _buildNoResults(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const NoResultsIllustration(),
-        Padding(
-          padding: EdgeInsets.only(top: context.responsive(24)),
-          child: Text(
-            'products.search_no_results'.tr(),
-            style: context.theme.text.body,
+    return FadeIn(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const NoResultsIllustration(),
+          Padding(
+            padding: EdgeInsets.only(top: context.responsive(24)),
+            child: Text(
+              'products.search_no_results'.tr(),
+              style: context.theme.text.body,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -4,10 +4,10 @@ import 'package:baratito_mobile/ui/shared/shared.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:flutter/material.dart';
 
-class PurchaseListView extends StatelessWidget {
+class PurchaseDetailListView extends StatelessWidget {
   final PurchaseList purchaseList;
 
-  const PurchaseListView({
+  const PurchaseDetailListView({
     Key? key,
     required this.purchaseList,
   }) : super(key: key);

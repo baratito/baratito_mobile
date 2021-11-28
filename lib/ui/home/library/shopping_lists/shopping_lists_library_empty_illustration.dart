@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:baratito_mobile/configs/configs.dart';
 
-class ShoppingListsEmptyIllustration extends StatelessWidget {
-  const ShoppingListsEmptyIllustration({Key? key}) : super(key: key);
+class ShoppingListsLibraryEmptyIllustration extends StatelessWidget {
+  const ShoppingListsLibraryEmptyIllustration({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +13,6 @@ class ShoppingListsEmptyIllustration extends StatelessWidget {
     final illustration = isDarkmodeActive
         ? Illustrations.shoppingListsEmptyDark
         : Illustrations.shoppingListsEmptyLight;
-    return SvgPicture.asset(illustration, width: 200);
+    return SvgPicture.asset(illustration, width: 300);
   }
 }

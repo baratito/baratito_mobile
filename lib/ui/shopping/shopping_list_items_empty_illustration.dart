@@ -5,7 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:baratito_mobile/configs/configs.dart';
 
 class ShoppingListItemsEmptyIllustration extends StatelessWidget {
-  const ShoppingListItemsEmptyIllustration({Key? key}) : super(key: key);
+  final double width;
+
+  const ShoppingListItemsEmptyIllustration({
+    Key? key,
+    this.width = 200,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +18,6 @@ class ShoppingListItemsEmptyIllustration extends StatelessWidget {
     final illustration = isDarkmodeActive
         ? Illustrations.shoppingListItemsEmptyDark
         : Illustrations.shoppingListItemsEmptyLight;
-    return SvgPicture.asset(illustration, width: 200);
+    return SvgPicture.asset(illustration, width: width);
   }
 }

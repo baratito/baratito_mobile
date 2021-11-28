@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'package:baratito_mobile/extensions/extensions.dart';
 
-class EstablishmentsDistanceButton extends StatelessWidget {
-  final String label;
-  final bool isSelected;
+class IconFilterButton extends StatelessWidget {
+  final IconData icon;
   final VoidCallback? onPressed;
+  final bool isSelected;
 
-  const EstablishmentsDistanceButton({
+  const IconFilterButton({
     Key? key,
-    required this.label,
-    this.isSelected = false,
+    required this.icon,
     this.onPressed,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class EstablishmentsDistanceButton extends StatelessWidget {
     final colorTheme = context.theme.colors;
     final color = isSelected ? colorTheme.primary : colorTheme.greyAccent;
     return Material(
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.circular(16),
       clipBehavior: Clip.antiAlias,
       color: color.withOpacity(.2),
       child: InkWell(
@@ -28,17 +28,10 @@ class EstablishmentsDistanceButton extends StatelessWidget {
         splashColor: color.withOpacity(.05),
         highlightColor: color.withOpacity(.2),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: context.responsive(20),
-            vertical: context.responsive(12),
-          ),
-          child: Text(
-            label,
-            style: context.theme.text.primaryButton.copyWith(color: color),
-          ),
+          padding: EdgeInsets.all(context.responsive(16)),
+          child: Icon(icon, color: color),
         ),
       ),
     );
-    ;
   }
 }
