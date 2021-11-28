@@ -92,9 +92,9 @@ class UserLocationsSheet extends StatelessWidget {
     context.pushView(
       SearchUserLocationsView(
         mapLocationsSearchCubit: mapLocationsSearchCubit,
-        onSuccess: () {
+        onSuccess: () async {
           userLocationsCubit.get();
-          context.popView();
+          await context.popView();
           context.popView();
         },
       ),
