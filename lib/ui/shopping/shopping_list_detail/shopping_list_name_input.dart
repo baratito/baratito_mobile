@@ -1,3 +1,4 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _ShoppingListNameInputState extends State<ShoppingListNameInput> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return AutoSizeTextField(
       controller: _controller,
       decoration: InputDecoration.collapsed(
         hintStyle: context.theme.text.title.copyWith(
@@ -39,6 +40,7 @@ class _ShoppingListNameInputState extends State<ShoppingListNameInput> {
       ),
       onChanged: widget.onChanged,
       maxLines: 2,
+      minLines: 1,
       style: context.theme.text.title,
       cursorColor: context.theme.colors.greyAccent,
     );

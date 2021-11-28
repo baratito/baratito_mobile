@@ -6,6 +6,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  auto_size_text_field: ^1.0.1
   baratito_core:
     path: ../baratito_core/
   baratito_ui:
