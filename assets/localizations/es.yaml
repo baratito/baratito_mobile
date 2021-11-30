@@ -13,6 +13,7 @@ feed:
   greeting:
     body: "¿Qué vas a comprar hoy?"
     header: "¡Hola {}!"
+  promotion_title: "Productos en oferta hoy!"
   title: "Feed"
 lists:
   create: "Creá una lista"

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:baratito_core/baratito_core.dart';
 import 'package:baratito_ui/baratito_ui.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -187,7 +188,7 @@ class _FeedPageState extends State<FeedPage> {
               sectionPadding: EdgeInsets.fromLTRB(padding, 16, padding, 0),
               sections: [
                 FeedStaggeredListSection(
-                  title: 'Productos en oferta hoy!',
+                  title: 'feed.promotion_title'.tr(),
                   items: [
                     for (final product in products)
                       Padding(
