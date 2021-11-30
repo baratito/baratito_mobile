@@ -19,7 +19,7 @@ class ShoppingListProductsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const minRatio = .8;
+    const minRatio = .5;
     const maxRatio = 1.0;
     return DraggableScrollableSheet(
       expand: true,

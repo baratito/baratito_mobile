@@ -3,13 +3,14 @@ import 'package:baratito_ui/baratito_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:baratito_mobile/ui/purchases/detail/purchase_detail_list_view.dart';
+import 'package:baratito_mobile/ui/purchases/detail/purchase_detail_map.dart';
+import 'package:baratito_mobile/ui/purchases/detail/purchase_detail_sheet.dart';
 import 'package:baratito_mobile/extensions/extensions.dart';
 import 'package:baratito_mobile/ui/shared/shared.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class PurchaseDetailView extends StatelessWidget {
+class PurchaseDetailView extends StatefulWidget {
   final PurchaseCubit purchaseCubit;
 
   const PurchaseDetailView({
@@ -18,156 +19,210 @@ class PurchaseDetailView extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PurchaseDetailView> createState() => _PurchaseDetailViewState();
+}
+
+class _PurchaseDetailViewState extends State<PurchaseDetailView> {
+  final _panelController = PanelController();
+  bool _isPanelOpen = false;
+
+  @override
   Widget build(BuildContext context) {
+    final maxHeight = context.screenSize.height * .88;
+    final minHeight = context.screenSize.height / 3.2;
     return View(
-      appBar: MainAppBar(
-        title: 'purchases.in_progress'.tr(),
-        actions: [
-          _buildAction(context),
-        ],
-      ),
-      child: _buildContent(context),
-    );
-  }
-
-  Widget _buildAction(BuildContext context) {
-    return BlocBuilder<PurchaseCubit, PurchaseState>(
-      bloc: purchaseCubit,
-      builder: (context, state) {
-        if (state is! PurchaseLoaded) return Container();
-        final purchaseList = state.purchaseList;
-        return IconActionButton(
-          icon: Icons.list,
-          onTap: () => _openList(context, purchaseList),
-          iconSize: 26,
-        );
-      },
-    );
-  }
-
-  void _openList(BuildContext context, PurchaseList purchaseList) {
-    context.pushView(PurchaseDetailListView(purchaseList: purchaseList));
-  }
-
-  Widget _buildContent(BuildContext context) {
-    return BlocBuilder<PurchaseCubit, PurchaseState>(
-      bloc: purchaseCubit,
-      builder: (context, state) {
-        if (state is! PurchaseLoaded) return Container();
-        final purchaseList = state.purchaseList;
-        return Column(
+      child: SlidingUpPanel(
+        controller: _panelController,
+        maxHeight: maxHeight,
+        minHeight: minHeight,
+        renderPanelSheet: false,
+        backdropTapClosesPanel: false,
+        panelSnapping: false,
+        isDraggable: false,
+        onPanelOpened: () => setState(() => _isPanelOpen = true),
+        onPanelClosed: () => setState(() => _isPanelOpen = false),
+        panel: _buildBottomSheet(),
+        body: Stack(
           children: [
-            Expanded(child: _buildMap(context, purchaseList)),
-            _buildInformationBox(context, purchaseList),
-            _buildButtonBar(context),
+            _buildContent(),
+            _buildBackButton(),
+            _buildCompleteButton(),
           ],
-        );
-      },
-    );
-  }
-
-  Widget _buildMap(BuildContext context, PurchaseList purchaseList) {
-    final firstEstablishmentLocation =
-        purchaseList.establishments.first.establishment.location;
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-      child: GoogleMap(
-        markers: {
-          for (final e in purchaseList.establishments)
-            Marker(
-              markerId: MarkerId(e.establishment.id.toString()),
-              position: LatLng(
-                e.establishment.location.latitude,
-                e.establishment.location.longitude,
-              ),
-            )
-        },
-        initialCameraPosition: CameraPosition(
-          target: LatLng(
-            firstEstablishmentLocation.latitude,
-            firstEstablishmentLocation.longitude,
-          ),
-          zoom: 14,
         ),
       ),
     );
   }
 
-  Widget _buildInformationBox(BuildContext context, PurchaseList purchaseList) {
-    return Container(
-      color: context.theme.colors.background,
-      padding: EdgeInsets.symmetric(
-        vertical: context.responsive(32),
-        horizontal: context.responsive(32),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Text(purchaseList.name, style: context.theme.text.headline1),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: context.responsive(12)),
-                child: Text(
-                  '\$${purchaseList.estimatedValue.toStringAsFixed(2)}',
-                  style: context.theme.text.title.copyWith(
-                    color: context.theme.colors.greenAccent,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.drive_eta_rounded,
-                  color: context.theme.colors.greyAccent,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    '${(purchaseList.totalDistanceInMeters / 1000).toStringAsFixed(1)}Km por recorrer',
-                    style: context.theme.text.body,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.access_time,
-                  color: context.theme.colors.greyAccent,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    '${purchaseList.duration.inMinutes} minutos',
-                    style: context.theme.text.body,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+  Widget _buildBottomSheet() {
+    return PurchaseDetailSheet(
+      panelController: _panelController,
+      purchaseCubit: widget.purchaseCubit,
+      isOpen: _isPanelOpen,
+    );
+  }
+
+  Widget _buildBackButton() {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: context.responsive(12),
+          top: context.responsive(12),
+        ),
+        child: const _BackButton(),
       ),
     );
   }
 
-  Widget _buildButtonBar(BuildContext context) {
-    return DoubleButtonBottomBar(
-      leftButtonLabel: 'shared.cancel'.tr(),
-      onLeftButtonPressed: () => context.popView(),
-      rightButtonLabel: 'purchases.complete'.tr(),
-      onRightButtonPressed: () => context.popView(),
+  Widget _buildCompleteButton() {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: EdgeInsets.only(
+          right: context.responsive(12),
+          top: context.responsive(12),
+        ),
+        child: BlocBuilder<PurchaseCubit, PurchaseState>(
+          bloc: widget.purchaseCubit,
+          builder: (context, state) {
+            return _CompleteButton(
+              isLoading: state is PurchaseCompleting,
+              onPressed: () => widget.purchaseCubit.completePurchase(),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return BlocConsumer<PurchaseCubit, PurchaseState>(
+      bloc: widget.purchaseCubit,
+      listener: (context, state) async {
+        if (state is PurchaseCompleted) {
+          for (final _ in Iterable.generate(2)) {
+            await context.popView();
+          }
+        }
+      },
+      builder: (context, state) {
+        if (state is! PurchaseData) return Container();
+        final purchaseList = state.purchaseList;
+        return _buildMap(purchaseList);
+      },
+    );
+  }
+
+  Widget _buildMap(PurchaseList purchaseList) {
+    return PurchaseDetailMap(purchaseList: purchaseList);
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  const _BackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = context.theme.colors.iconAction;
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: context.theme.colors.background,
+        boxShadow: [context.theme.shadows.small],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          highlightColor: color.withOpacity(.2),
+          splashColor: color.withOpacity(.05),
+          onTap: context.popView,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Icon(
+              context.isIos ? Icons.arrow_back_ios_new : Icons.arrow_back,
+              color: color,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CompleteButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final bool isLoading;
+  const _CompleteButton({
+    Key? key,
+    this.onPressed,
+    this.isLoading = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = context.theme.colors.iconAction;
+    final radius = BorderRadius.circular(16);
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        color: context.theme.colors.primary,
+        boxShadow: [context.theme.shadows.small],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          highlightColor: color.withOpacity(.2),
+          splashColor: color.withOpacity(.05),
+          onTap: onPressed,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: context.responsive(12, axis: Axis.horizontal),
+              vertical: context.responsive(10),
+            ),
+            child: _buildContent(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (isLoading)
+          Padding(
+            padding: EdgeInsets.only(
+              right: context.responsive(4, axis: Axis.horizontal),
+            ),
+            child: const Spinner(size: 14),
+          ),
+        if (!isLoading) _buildIcon(context),
+        Padding(
+          padding: EdgeInsets.only(
+            left: context.responsive(4, axis: Axis.horizontal),
+          ),
+          child: Flexible(
+            child: Text(
+              'purchases.complete'.tr(),
+              style: context.theme.text.primaryButton,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildIcon(BuildContext context) {
+    final theme = context.theme.text.primaryButton;
+    return Icon(
+      Icons.check,
+      size: 18,
+      color: theme.color,
     );
   }
 }

@@ -26,9 +26,13 @@ class PurchaseDetailLoadingView extends StatelessWidget {
     );
     return BlocListener<PurchaseCubit, PurchaseState>(
       bloc: purchaseCubit,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is PurchaseLoaded) {
           _navigateToPurchase(context);
+        } else if (state is PurchaseFailed) {
+          final failure = state.failure;
+          await showFailureDialog(context: context, failure: failure);
+          context.popView();
         }
       },
       child: View(

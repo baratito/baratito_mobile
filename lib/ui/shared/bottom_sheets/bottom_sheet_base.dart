@@ -3,30 +3,35 @@ import 'package:flutter/material.dart';
 
 class BottomSheetBase extends StatelessWidget {
   final String? title;
+  final BorderRadius? borderRadius;
+  final bool showDragLine;
   final Widget child;
 
   const BottomSheetBase({
     Key? key,
     required this.child,
     this.title,
+    this.borderRadius,
+    this.showDragLine = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const radius = Radius.circular(32);
+    const defaultRadius = Radius.circular(32);
+    const defaultBorderRadius = BorderRadius.only(
+      topLeft: defaultRadius,
+      topRight: defaultRadius,
+    );
     return Container(
       padding: const EdgeInsets.only(top: 16),
       decoration: BoxDecoration(
         color: context.theme.colors.background,
-        borderRadius: const BorderRadius.only(
-          topLeft: radius,
-          topRight: radius,
-        ),
+        borderRadius: borderRadius ?? defaultBorderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _buildDragLine(context),
+          if (showDragLine) _buildDragLine(context),
           if (title != null) _buildTitle(context),
           child,
         ],

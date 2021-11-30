@@ -19,11 +19,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^7.3.0
+  flutter_polyline_points: ^1.0.0
   flutter_svg: ^0.23.0+1
   get_it: ^7.2.0
   google_maps_flutter: ^2.1.0
   google_maps_webservice: ^0.0.19
   just_debounce_it: ^4.0.0+2
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_lints: ^1.0.0

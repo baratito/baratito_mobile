@@ -1,5 +1,6 @@
 failures:
   confirm: "Confirmar"
+  client_title: "Error"
   connection_title: "Error de conexión"
   connection_body: "Revisá el estado de tu conexión a internet."
   not_found_title: "No encontrado"
@@ -40,7 +41,9 @@ products:
   search_placeholder: "Buscar productos..."
   search_title: "Buscar productos"
 purchases:
-  complete: "Completar compra"
+  complete: "Finalizar"
+  distance_to_travel: "Km por recorrer"
+  duration_label: "minutos"
   lessThanOneKilometer: "Hasta 1Km"
   lessThanFiveKilometer: "Hasta 5Km"
   lessThanTenKilometer: "Hasta 10Km"
@@ -50,6 +53,7 @@ purchases:
   mobility_mode: "Tipo de movilidad"
   plan: "Planificá tu compra"
   in_progress: "Compra en transcurso"
+  information: "Información"
 settings:
   enable_darkmode: "Activar modo oscuro"
   title: "Configuraciones"

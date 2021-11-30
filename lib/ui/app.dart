@@ -32,6 +32,12 @@ class App extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: _buildTheme(context),
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: NoGlowBehavior(),
+          child: child!,
+        );
+      },
       home: SplashView(
         authorizationCubit: getDependency<AuthorizationCubit>(),
       ),

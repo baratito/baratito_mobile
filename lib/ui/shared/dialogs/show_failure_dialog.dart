@@ -2,6 +2,7 @@ import 'package:baratito_core/baratito_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import 'package:baratito_mobile/ui/shared/dialogs/show_client_error_dialog.dart';
 import 'package:baratito_mobile/ui/shared/dialogs/show_confirm_error_dialog.dart';
 import 'package:baratito_mobile/ui/shared/dialogs/show_connection_error_dialog.dart';
 import 'package:baratito_mobile/ui/shared/dialogs/show_not_found_error_dialog.dart';
@@ -19,6 +20,12 @@ Future<void> showFailureDialog({
   }
   if (failure is ConnectionFailure) {
     return showConnectionErrorDialog(context: context);
+  }
+  if (failure is ClientFailure) {
+    return showClientErrorDialog(
+      context: context,
+      description: failure.description,
+    );
   }
   return showConfirmErrorDialog(
     context: context,
