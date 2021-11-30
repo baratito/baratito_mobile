@@ -69,7 +69,14 @@ class PurchaseDetailSheet extends StatelessWidget {
       child: Column(
         children: [
           _buildCloseButton(context),
-          Expanded(child: PurchaseDetailList(purchaseList: purchaseList)),
+          Expanded(
+            child: PurchaseDetailList(
+              purchaseList: purchaseList,
+              onItemPressed: (item) {
+                purchaseCubit.toggleItemBoughtState(item: item);
+              },
+            ),
+          ),
         ],
       ),
     );

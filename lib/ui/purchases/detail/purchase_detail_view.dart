@@ -202,11 +202,11 @@ class _CompleteButton extends StatelessWidget {
             child: const Spinner(size: 14),
           ),
         if (!isLoading) _buildIcon(context),
-        Padding(
-          padding: EdgeInsets.only(
-            left: context.responsive(4, axis: Axis.horizontal),
-          ),
-          child: Flexible(
+        Flexible(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: context.responsive(4, axis: Axis.horizontal),
+            ),
             child: Text(
               'purchases.complete'.tr(),
               style: context.theme.text.primaryButton,
