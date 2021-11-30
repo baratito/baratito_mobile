@@ -16,6 +16,7 @@ feed:
   promotion_title: "Productos en oferta hoy!"
   title: "Feed"
 lists:
+  all_your_lists: "Todas tus listas"
   create: "Creá una lista"
 login:
   facebook: "Ingresar con Facebook"
@@ -53,6 +54,8 @@ purchases:
   max_market_distance: "Cercanía de los establecimientos"
   mobility_mode: "Tipo de movilidad"
   plan: "Planificá tu compra"
+  spent: "Gastado"
+  title: "Compras"
   in_progress: "Compra en transcurso"
   information: "Información"
 settings:

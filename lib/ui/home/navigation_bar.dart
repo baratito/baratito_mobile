@@ -101,6 +101,14 @@ class _NavigationBarButtonState extends State<_NavigationBarButton>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _slideController.dispose();
+    _fadeController.dispose();
+    _scaleController.dispose();
+    super.dispose();
+  }
+
   void _setUpSlideAnimation() {
     _slideController = AnimationController(
       vsync: this,

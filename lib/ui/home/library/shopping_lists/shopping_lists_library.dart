@@ -27,7 +27,7 @@ class ShoppingListsLibrary extends StatelessWidget {
         if (state is ShoppingListsLoading) return _buildLoading(context);
         if (state is ShoppingListsEmpty) return _buildEmpty(context);
         if (state is ShoppingListsData) {
-          return Expanded(child: _buildLists(context, state));
+          return _buildContent(context, state);
         }
         return Container();
       },
@@ -66,6 +66,28 @@ class ShoppingListsLibrary extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context, ShoppingListsData state) {
+    return Padding(
+      padding: EdgeInsets.only(top: context.responsive(20)),
+      child: Column(
+        children: [
+          Flexible(
+            child: Row(
+              children: [
+                Text(
+                  'lists.all_your_lists'.tr(),
+                  textAlign: TextAlign.center,
+                  style: context.theme.text.body,
+                ),
+              ],
+            ),
+          ),
+          Expanded(child: _buildLists(context, state)),
+        ],
       ),
     );
   }

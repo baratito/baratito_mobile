@@ -25,6 +25,7 @@ class _HomeViewState extends State<HomeView> {
   late AuthenticatedUserProfileCubit _authenticatedUserProfileCubit;
   late ShoppingListsCubit _shoppingListsCubit;
   late ProductRecommendationsCubit _recommendationsCubit;
+  late MonthlyPurchaseSummariesCubit _summariesCubit;
 
   ActivePageState _activePage = ActivePageState.feedActive;
 
@@ -34,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
         getDependency<AuthenticatedUserProfileCubit>();
     _shoppingListsCubit = getDependency<ShoppingListsCubit>();
     _recommendationsCubit = getDependency<ProductRecommendationsCubit>();
+    _summariesCubit = getDependency<MonthlyPurchaseSummariesCubit>();
     super.initState();
   }
 
@@ -77,15 +79,22 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildFeedPage() {
-    return FeedPage(
-      authenticatedUserProfileCubit: _authenticatedUserProfileCubit,
-      recommendationsCubit: _recommendationsCubit,
+    return SizedBox(
+      height: context.screenSize.height,
+      child: FeedPage(
+        authenticatedUserProfileCubit: _authenticatedUserProfileCubit,
+        recommendationsCubit: _recommendationsCubit,
+      ),
     );
   }
 
   Widget _buildLibraryPage() {
-    return LibraryPage(
-      shoppingListsCubit: _shoppingListsCubit,
+    return SizedBox(
+      height: context.screenSize.height,
+      child: LibraryPage(
+        shoppingListsCubit: _shoppingListsCubit,
+        summariesCubit: _summariesCubit,
+      ),
     );
   }
 
