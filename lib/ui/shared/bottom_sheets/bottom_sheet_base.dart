@@ -54,14 +54,17 @@ class BottomSheetBase extends StatelessWidget {
 
   Widget _buildTitle(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 8),
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            title!,
-            style: context.theme.text.headline1,
-            textAlign: TextAlign.center,
+          Flexible(
+            child: TextOneLine(
+              title!,
+              style: context.theme.text.headline1,
+              overflow: TextOverflow.fade,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

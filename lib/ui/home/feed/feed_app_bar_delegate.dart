@@ -121,7 +121,6 @@ class _FeedAppBarState extends State<_FeedAppBar> {
           onTap: () {
             context.pushView(const NotificationsView());
           },
-          showIndicator: true,
         ),
       ],
     );

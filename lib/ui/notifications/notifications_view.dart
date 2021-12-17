@@ -10,7 +10,7 @@ class NotificationsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return View(
       appBar: const MainAppBar(
-        title: 'Notifications',
+        title: 'Notificaciones',
       ),
       child: _buildNotificationsList(context),
     );
@@ -21,21 +21,45 @@ class NotificationsView extends StatelessWidget {
         context.themeValue.dimensions as MobileDimensionTheme;
     final horizontalPadding = dimensionTheme.viewHorizontalPadding;
 
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.fromLTRB(horizontalPadding, 16, horizontalPadding, 0),
-          child: IconListItem(
-            title: 'Comprá verduras con Baratito',
-            subtitle1: 'Llevate 5 choclos y 2 tomates de regalo.',
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        horizontalPadding,
+        16,
+        horizontalPadding,
+        0,
+      ),
+      child: Column(
+        children: [
+          IconListItem(
+            title: 'Oferta de alimentos',
+            subtitle1: 'A sólo \$228! Aceite de Girasol Cañuelas 1.5 Lt.',
             icon: BaratitoIcons.notification,
             iconColor: context.theme.colors.greyAccent,
-            actionIcon: BaratitoIcons.arrowRight,
             onPressed: () {},
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: IconListItem(
+              title: 'Oferta de alimentos',
+              subtitle1: 'A sólo \$99! Leche Entera Clásica Larga Vida Carton',
+              icon: BaratitoIcons.notification,
+              iconColor: context.theme.colors.greyAccent,
+              onPressed: () {},
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: IconListItem(
+              title: 'Oferta de bebidas con alcohol',
+              subtitle1:
+                  'A sólo \$237! Vino Tinto Malbec Alaris Trapiche 750 Cc',
+              icon: BaratitoIcons.notification,
+              iconColor: context.theme.colors.greyAccent,
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

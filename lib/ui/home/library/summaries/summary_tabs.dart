@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class SummaryTabs extends StatefulWidget {
   final List<MonthlyPurchaseSummary> summaries;
+  final VoidCallback? onRefresh;
 
   const SummaryTabs({
     Key? key,
     required this.summaries,
+    this.onRefresh,
   }) : super(key: key);
 
   @override
@@ -87,7 +89,7 @@ class _SummaryTabsState extends State<SummaryTabs>
   }
 
   Widget _buildPage(MonthlyPurchaseSummary summary) {
-    return SummaryDetail(summary: summary);
+    return SummaryDetail(onRefresh: widget.onRefresh, summary: summary);
   }
 }
 

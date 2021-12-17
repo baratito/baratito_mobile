@@ -9,10 +9,12 @@ import 'package:baratito_mobile/extensions/extensions.dart';
 
 class SummaryDetail extends StatelessWidget {
   final MonthlyPurchaseSummary summary;
+  final VoidCallback? onRefresh;
 
   const SummaryDetail({
     Key? key,
     required this.summary,
+    this.onRefresh,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,7 @@ class SummaryDetail extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: context.responsive(24)),
           child: _buildTotal(context),
         ),
-        Expanded(child: _buildPurchases()),
+        Expanded(child: _buildPurchases(context)),
       ],
     );
   }
@@ -46,10 +48,15 @@ class SummaryDetail extends StatelessWidget {
     return '\$${total.toStringAsFixed(2)}';
   }
 
-  Widget _buildPurchases() {
-    return ListView.builder(
-      itemCount: summary.purchases.length,
-      itemBuilder: _buildPurchaseItem,
+  Widget _buildPurchases(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async => onRefresh?.call(),
+      color: context.theme.colors.primary,
+      backgroundColor: context.theme.colors.background,
+      child: ListView.builder(
+        itemCount: summary.purchases.length,
+        itemBuilder: _buildPurchaseItem,
+      ),
     );
   }
 
